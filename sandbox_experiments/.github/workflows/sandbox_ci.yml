@@ -5,6 +5,7 @@ on:
     branches: [ mesa-sandbox ]
   pull_request:
     branches: [ mesa-sandbox ]
+  workflow_dispatch:
 
 jobs:
   test-sandbox:
