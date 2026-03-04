@@ -1,0 +1,2 @@
+mesa>=2.1.0
+non_existent_package==9.9.9  # This will force a CI failure

@@ -1,0 +1,35 @@
+name: Mesa Sandbox CI
+
+on:
+  push:
+    branches: [ mesa-sandbox ]
+  pull_request:
+    branches: [ mesa-sandbox ]
+
+jobs:
+  test-sandbox:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # This tells GitHub to run separate jobs for each model
+        model_path: [sandbox_experiments/good_model, sandbox_experiments/bad_model]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          cd ${{ matrix.model_path }}
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # Also install mesa since it's the core dependency
+          pip install mesa
+
+      - name: Run Model
+        run: |
+          cd ${{ matrix.model_path }}
+          python run.py
